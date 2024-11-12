@@ -7,7 +7,7 @@ Pocketbase mobile is used to generate android and ios packages for using pocketb
 
 Make sure [gomobile](https://pkg.go.dev/golang.org/x/mobile/cmd/gomobile) is installed 
 
-run :  `gomobile bind -androidapi 19` for Android, this will generate `pocketbaseMobile.aar`, import this in android and use
+run :  `gomobile bind -androidapi 19` for Android, this will generate `pocketfhirMobile.aar`, import this in android and use
 
 run : `gomobile bind --target ios` for IOS or try : `gomobile bind -ldflags='-extldflags=-libresolv.tbd' -target=ios`
 

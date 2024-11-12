@@ -1,4 +1,4 @@
-package pocketbaseMobile
+package pocketfhirMobile
 
 import (
 	"fmt"
@@ -18,25 +18,25 @@ var version string = "0.0.1"
 
 func RegisterNativeBridgeCallback(c NativeBridge) { nativeBridge = c }
 
-func StartPocketbase(path string, hostname string, port string, getApiLogs bool) {
+func StartPocketfhir(path string, hostname string, port string, getApiLogs bool) {
 	os.Args = append(os.Args, "serve", "--http", hostname+":"+port)
 	appConfig := pocketbase.Config{
 		DefaultDataDir: path,
 	}
 	app := pocketbase.NewWithConfig(&appConfig)
-	setupPocketbaseCallbacks(app, getApiLogs)
+	setupPocketfhirCallbacks(app, getApiLogs)
 
 	serverUrl := "http://" + hostname + ":" + port
 	sendCommand("onServerStarting", fmt.Sprintln("Server starting at:", serverUrl+"\n",
 		"➜ REST API: ", serverUrl+"/api/\n",
 		"➜ Admin UI: ", serverUrl+"/_/"))
 	if err := app.Start(); err != nil {
-		sendCommand("error", fmt.Sprintln("Error: ", "Failed to start pocketbase server: ", err))
+		sendCommand("error", fmt.Sprintln("Error: ", "Failed to start pocketfhir server: ", err))
 	}
 }
 
-func StopPocketbase() {
-	sendCommand("log", "Stopping pocketbase...")
+func StopPocketfhir() {
+	sendCommand("log", "Stopping pocketfhir...")
 	syscall.Kill(syscall.Getpid(), syscall.SIGINT)
 }
 
@@ -55,7 +55,7 @@ func sendCommand(command string, data string) string {
 }
 
 // Hooks :https://pocketbase.io/docs/event-hooks/
-func setupPocketbaseCallbacks(app *pocketbase.PocketBase, getApiLogs bool) {
+func setupPocketfhirCallbacks(app *pocketbase.PocketBase, getApiLogs bool) {
 	// Setup callbacks
 	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
 		sendCommand("OnBeforeServe", "")
